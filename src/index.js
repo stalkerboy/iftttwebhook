@@ -20,12 +20,16 @@ async function run() {
     console.log(result.rows[0]["CD"]);
 
     axios
-      .post(`${Webhook.URL}${Webhook.EVENT}${Webhook.KEY}`)
+      .post(`${Webhook.URL}${Webhook.EVENT}${Webhook.KEY}`, {
+        value1: "fail1",
+        value2: "success",
+        value3: "fail3",
+      })
       .then(function (response) {
-        console.log(response);
+        console.log("axios posted");
       })
       .catch(function (error) {
-        console.log(error);
+        console.log("axios post error", error);
       });
   } catch (err) {
     console.error(err);
@@ -44,11 +48,9 @@ async function run() {
 
 const delay = (time, a) => new Promise((resolve) => setTimeout(() => resolve(a), time));
 
-async function test() {
-  return Promise.all([1, 2, 3]);
-}
-
 async function recur() {
   return Promise.all([delay(1000 * 30), run()]).then(recur);
 }
-recur();
+// recur();
+
+run();
